@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebExtensionApi.Web", "WebExtensionApi.Web\WebExtensionApi.Web.csproj", "{4E2BF074-5471-40ED-B89C-0EB25CE12434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebExtensionApi.Core", "WebExtensionApi.Core\WebExtensionApi.Core.csproj", "{E9D6D030-018A-4549-AA45-B378831F2B5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E2BF074-5471-40ED-B89C-0EB25CE12434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2BF074-5471-40ED-B89C-0EB25CE12434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2BF074-5471-40ED-B89C-0EB25CE12434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2BF074-5471-40ED-B89C-0EB25CE12434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9D6D030-018A-4549-AA45-B378831F2B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9D6D030-018A-4549-AA45-B378831F2B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9D6D030-018A-4549-AA45-B378831F2B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9D6D030-018A-4549-AA45-B378831F2B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

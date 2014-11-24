@@ -1,0 +1,10 @@
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\WebExtensionApi.Core.dll.config
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\WebExtensionApi.Core.dll
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\WebExtensionApi.Core.pdb
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\EntityFramework.dll
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\EntityFramework.SqlServer.dll
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\Microsoft.Practices.Unity.dll
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\EntityFramework.xml
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\bin\Debug\EntityFramework.SqlServer.xml
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\obj\Debug\WebExtensionApi.Core.dll
+D:\Дипломна Работа\Проект\WebExtensionApi.Web\WebExtensionApi.Core\obj\Debug\WebExtensionApi.Core.pdb
