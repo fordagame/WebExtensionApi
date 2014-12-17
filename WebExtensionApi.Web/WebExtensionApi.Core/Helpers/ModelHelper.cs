@@ -16,7 +16,7 @@ namespace WebExtensionApi.Core.Helpers
         {
             if (Context == null)
             {
-                Context = DataContextInstance.TouristCatalogModelEntityContext;
+                Context = DataContextInstance.WebExtensionApiModelEntityContext;
             }
             T result = Container.Resolve<T>(new ParameterOverride("context", Context));
             result.Init();
@@ -28,7 +28,7 @@ namespace WebExtensionApi.Core.Helpers
         {
             if (Context == null)
             {
-                Context = DataContextInstance.TouristCatalogModelEntityContext;
+                Context = DataContextInstance.WebExtensionApiModelEntityContext;
             }
             return Container.BuildUp<T>(obj, new ParameterOverride("context", Context));
         }
@@ -49,8 +49,8 @@ namespace WebExtensionApi.Core.Helpers
         private static void InitContainer()
         {
             container = new UnityContainer();
-            List<Type> types = Assembly.Load("TouristRouteCatalog.Core").GetTypes()
-                .Where(t => t.Namespace != null && (t.Namespace.StartsWith("TouristRouteCatalog.Core.Model"))).ToList();
+            List<Type> types = Assembly.Load("WebExtensionApi.Core").GetTypes()
+                .Where(t => t.Namespace != null && (t.Namespace.StartsWith("WebExtensionApi.Core.Model"))).ToList();
             foreach (Type type in types)
             {
                 container.RegisterType(type);

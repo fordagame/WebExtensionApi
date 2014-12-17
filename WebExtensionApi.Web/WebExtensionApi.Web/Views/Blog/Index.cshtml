@@ -1,0 +1,29 @@
+﻿@model List<WebExtensionApi.BlogCore.Proxy.BlogProxy>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.ActionLink("User Extensions", "Extension")
+
+@foreach (var item in Model)
+{
+    <br />
+    <div>Article number: @item.ID</div>
+    
+    <div>Category: @item.Category</div>
+    <div>@item.Text</div>
+    foreach (var image in item.Images)
+    {
+        <img style="width: 120px;" src="@image.ImageURL" />
+    }
+    <div>Comments:</div>
+    foreach (var comment in item.Comments)
+    {
+        <div style="border: 1px black solid;">
+            <div> Author: anonumous</div>
+            <div>@comment.Text</div>
+        </div>
+    }
+    <hr width="800px" />
+}

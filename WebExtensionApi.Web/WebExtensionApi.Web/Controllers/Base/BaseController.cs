@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebExtensionApi.Core.BusinessLayer;
-using WebExtensionApi.Core.DAL;
-using WebExtensionApi.Core.Helpers;
+using WebExtensionApi.BlogCore.BusinessLayer;
+using WebExtensionApi.BlogCore.DAL;
+using WebExtensionApi.BlogCore.Helpers;
 using WebMatrix.WebData;
 
 namespace WebExtensionApi.Web.Controllers.Base
@@ -20,20 +20,20 @@ namespace WebExtensionApi.Web.Controllers.Base
             }
         }
 
-        private WebExtensionApiEntities defaultContext;
-        private WebExtensionApiEntities DefaultContext
+        private BlogEntities defaultContext;
+        private BlogEntities DefaultContext
         {
             get
             {
                 if (defaultContext == null)
                 {
-                    defaultContext = new WebExtensionApiEntities();
+                    defaultContext = new BlogEntities();
                 }
                 return defaultContext;
             }
         }
 
-        public T LoadModel<T>(WebExtensionApiEntities Context = null) where T : IBusinessLayer
+        public T LoadModel<T>(BlogEntities Context = null) where T : IBusinessLayer
         {
             if (Context == null)
             {
@@ -47,7 +47,7 @@ namespace WebExtensionApi.Web.Controllers.Base
 
 
 
-        protected T BuildUp<T>(T obj, WebExtensionApiEntities Context = null) where T : IBusinessLayer
+        protected T BuildUp<T>(T obj, BlogEntities Context = null) where T : IBusinessLayer
         {
             if (Context == null)
             {

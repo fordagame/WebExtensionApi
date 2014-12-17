@@ -86,7 +86,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\TestProxy.cs" />
     <Compile Include="Repository\BaseRepo.cs" />
-    <Compile Include="Repository\TestRepo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -8,16 +8,16 @@ namespace WebExtensionApi.Core.DAL
 {
     public class DataContextInstance
     {
-        private static WebExtensionApiEntities _TouristCatalogModelEntityContext;
-        public static WebExtensionApiEntities TouristCatalogModelEntityContext
+        private static WebExtensionApiEntities _WebExtensionApiModelEntityContext;
+        public static WebExtensionApiEntities WebExtensionApiModelEntityContext
         {
             get
             {
-                if (_TouristCatalogModelEntityContext == null)
+                if (_WebExtensionApiModelEntityContext == null)
                 {
-                    _TouristCatalogModelEntityContext = new WebExtensionApiEntities();
+                    _WebExtensionApiModelEntityContext = new WebExtensionApiEntities();
                 }
-                return _TouristCatalogModelEntityContext;
+                return _WebExtensionApiModelEntityContext;
 
             }
         }

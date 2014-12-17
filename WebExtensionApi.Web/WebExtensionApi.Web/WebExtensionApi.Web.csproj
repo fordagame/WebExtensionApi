@@ -144,6 +144,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Base\BaePage.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
+    <Compile Include="Controllers\Blogs\BlogController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,6 +222,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\WebExtensionApi\WebExtensionApi.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -233,6 +235,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Blog\Extension.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -242,9 +246,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebExtensionApi.Core\WebExtensionApi.Core.csproj">
-      <Project>{e9d6d030-018a-4549-aa45-b378831f2b5b}</Project>
-      <Name>WebExtensionApi.Core</Name>
+    <ProjectReference Include="..\WebExtensionApi.BlogCore\WebExtensionApi.BlogCore.csproj">
+      <Project>{34c74c26-225c-4a80-b814-fc35751e8ca9}</Project>
+      <Name>WebExtensionApi.BlogCore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

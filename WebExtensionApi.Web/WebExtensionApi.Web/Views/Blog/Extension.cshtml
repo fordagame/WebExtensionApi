@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Extension";
+}
+
+<script src="~/Scripts/WebExtensionApi/WebExtensionApi.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        webExtensionApi = new WebExtensionApi({
+            dataSources: [
+                 {
+                     Name: "Blogs",
+                     Url: "/Blog/GetBlogs"
+                 }
+            ],
+            containerId: "extension-container",
+            width: 1024,
+            height: 840
+
+        })
+    });
+</script>
+
+
+<h2>Extension</h2>
+
+@Html.ActionLink("Blog", "Index")
+<br />
+<iframe id="extension-container" ></iframe>
