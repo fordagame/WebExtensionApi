@@ -5,7 +5,7 @@
 <script src="~/Scripts/WebExtensionApi/WebExtensionApi.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
         webExtensionApi = new WebExtensionApi({
             dataSources: [
                  {
@@ -18,7 +18,29 @@
             height: 840
 
         })
+
+
+
+        setTimeout(function () {
+            var doc = $("#" + webExtensionApi.ContainerID)[0].contentWindow.document;
+            var body = $('body', doc);
+            var html = '<h1>Top rated blog posts:</h1>';
+            var j = 0;
+            console.info(webExtensionApi.DataSources.Blogs);
+            for (var i in webExtensionApi.DataSources.Blogs) {
+                console.info('test');
+                var dataSource = webExtensionApi.DataSources.Blogs[i];
+                html += "<div>" + dataSource.Text + "</div><hr />";
+                j++;
+                if (j > 5) {
+                    break;
+                }
+            }
+
+            body.html(html);
+        }, 1000);
     });
+
 </script>
 
 
@@ -26,4 +48,4 @@
 
 @Html.ActionLink("Blog", "Index")
 <br />
-<iframe id="extension-container" ></iframe>
+<iframe id="extension-container"></iframe>

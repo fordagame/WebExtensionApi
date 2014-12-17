@@ -10,7 +10,8 @@
             });
         }
     }
-
+    this.ContainerID = options.containerId;
     $("#" + options.containerId).width(options.width);
     $("#" + options.containerId).height(options.height);
+   
 }
