@@ -12,6 +12,7 @@ namespace WebExtensionApi.BlogCore.Proxy
         public string Text { get; set; }
         public string Category { get; set; }
         public int CategoryID { get; set; }
+        public int Rating { get; set; }
         public List<BlogCommentProxy> Comments { get; set; }
         public List<BlogImageProxy> Images { get; set; }
 

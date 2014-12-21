@@ -53,32 +53,35 @@ BEGIN
 	END
 
 	insert into Blogs (Text, Rating, CategoryID)
-	Values (@Text, @counter % 10, (@counter % 7 + 1))
+	Values (@Text, CAST((RAND() * 400 ) as int), CAST((RAND() * 6 ) as int) + 1)
 	
 	DECLARE @BlogID int = SCOPE_IDENTITY()
 	
 	-- insert random comments
+	DECLARE @RandomNumber int = 0
 	DECLARE @CounterComments int = 1
-	WHILE @CounterComments < 10
+	DECLARE @whileComment int = CAST((RAND() * 10 ) as int)
+	WHILE @CounterComments < @whileComment
 	BEGIN
 		Declare @CommentText nvarchar(max) = ''
-		if(@counter * @CounterComments  % 5 = 0 )
+		set @RandomNumber = CAST((RAND() * 10 ) as int)
+		if(@RandomNumber  % 5 = 0 )
 		BEGIN
 			Set @CommentText = @Comment1
 		END
-		if(@counter * @CounterComments  % 5  = 1 )
+		if(@RandomNumber  % 5  = 1 )
 		BEGIN
 			Set @CommentText = @Comment2
 		END
-		if(@counter * @CounterComments  % 5  = 2 )
+		if(@RandomNumber  % 5  = 2 )
 		BEGIN
 			Set @CommentText = @Comment3
 		END
-		if(@counter * @CounterComments  % 5  = 3 )
+		if(@RandomNumber % 5  = 3 )
 		BEGIN
 			Set @CommentText = @Comment4
 		END
-		if(@counter * @CounterComments  % 5  = 4 )
+		if(@RandomNumber  % 5 = 4 )
 		BEGIN
 			Set @CommentText = @Comment5
 		END
@@ -89,26 +92,28 @@ BEGIN
 	END
 	-- insert random images
 	set @CounterComments = 1
-	WHILE @CounterComments < 10
-	BEGIN
+	DECLARE @whileImages int = CAST((RAND() * 10 ) as int)
+	WHILE @CounterComments < @whileImages
+		BEGIN
+		set @RandomNumber = CAST((RAND() * 10 ) as int)
 		Declare @ImageText nvarchar(max) = ''
-		if(@counter * @CounterComments  % 5 = 0 )
+		if(@RandomNumber % 5 = 0 )
 		BEGIN
 			Set @ImageText = @Image1
 		END
-		if(@counter * @CounterComments  % 5  = 1 )
+		if(@RandomNumber % 5  = 1 )
 		BEGIN
 			Set @ImageText = @Image2
 		END
-		if(@counter * @CounterComments  % 5  = 2 )
+		if(@RandomNumber  % 5  = 2 )
 		BEGIN
 			Set @ImageText = @Image3
 		END
-		if(@counter * @CounterComments  % 5  = 3 )
+		if(@RandomNumber  % 5  = 3 )
 		BEGIN
 			Set @ImageText = @Image4
 		END
-		if(@counter * @CounterComments  % 5  = 4 )
+		if(@RandomNumber  % 5  = 4 )
 		BEGIN
 			Set @ImageText = @Image5
 		END

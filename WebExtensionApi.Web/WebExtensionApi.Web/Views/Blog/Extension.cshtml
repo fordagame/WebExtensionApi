@@ -1,10 +1,14 @@
 ﻿@{
     ViewBag.Title = "Extension";
 }
-
+<link href="~/Content/WebExtensionApi/WebExtensionApi.css" rel="stylesheet" />
 <script src="~/Scripts/WebExtensionApi/WebExtensionApi.js"></script>
+<style>
 
+</style>
 <script type="text/javascript">
+  
+
     $(document).ready(function () {
         webExtensionApi = new WebExtensionApi({
             dataSources: [
@@ -14,31 +18,31 @@
                  }
             ],
             containerId: "extension-container",
-            width: 1024,
-            height: 840
+            width: 800,
+            height: 640,
+            jQueryPath:  "/Scripts/jquery-1.8.2.min.js",
+            Info: "To reach blogs data source please use following variable DataSources.Blogs"
+        });
 
-        })
+        //<div id="test_container"></div>
 
+        //.wea_rating{
+        //    color: red;
+        //}
 
+        //var doc = $("#test_container");
+        //var html = '<h1>Top rated blog posts:</h1>';
+        //var j = 0;
+        //for (var i in DataSources.Blogs) {
+        //    var dataSource = DataSources.Blogs[i];
+        //    html += "<div class='wea_rating'>Rating: " + dataSource.Rating + "</div><div>" + dataSource.Text + "</div><hr/>";
+        //    j++;
+        //    if (j > 5) {
+        //        break;
+        //    }
+        //}
 
-        setTimeout(function () {
-            var doc = $("#" + webExtensionApi.ContainerID)[0].contentWindow.document;
-            var body = $('body', doc);
-            var html = '<h1>Top rated blog posts:</h1>';
-            var j = 0;
-            console.info(webExtensionApi.DataSources.Blogs);
-            for (var i in webExtensionApi.DataSources.Blogs) {
-                console.info('test');
-                var dataSource = webExtensionApi.DataSources.Blogs[i];
-                html += "<div>" + dataSource.Text + "</div><hr />";
-                j++;
-                if (j > 5) {
-                    break;
-                }
-            }
-
-            body.html(html);
-        }, 1000);
+        //doc.html(html);
     });
 
 </script>
@@ -48,4 +52,4 @@
 
 @Html.ActionLink("Blog", "Index")
 <br />
-<iframe id="extension-container"></iframe>
+<div id="extension-container"></div>

@@ -26,6 +26,7 @@ namespace WebExtensionApi.BlogCore.Repository
                         Category = blog.Category.Name,
                         CategoryID = blog.CategoryID,
                         Text = blog.Text,
+                        Rating = blog.Rating,
                         Images = blog.BlogImages.Select(image => new BlogImageProxy() { ID = image.ID, ImageURL = image.ImageURL }).ToList(),
                         Comments = blog.BlogComments.Select(comment => new BlogCommentProxy() {  ID = comment.ID, Text = comment.Text}).ToList()
                     }).ToList();
