@@ -62,7 +62,12 @@ WebExtensionApi.prototype.AllDataSourcesLoaded = function () {
 
     this.SwitchView(WebExtensionApi.Views.View);
     var that = this;
-    setTimeout(function(){ that.LoadSavedData()}, 200);
+    setTimeout(function(){ 
+        that.LoadJquery(WebExtensionApi.Views.View_HTML);
+        that.LoadJquery(WebExtensionApi.Views.Preview_HTML);
+        setTimeout(function () {
+            that.LoadSavedData()
+        }, 100);}, 100);
 }
 
 WebExtensionApi.prototype.buildView = function () {
@@ -112,12 +117,12 @@ WebExtensionApi.prototype.buildView = function () {
     //Preview
     $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_PreviewContainer' style='display: none;'  class='wea_container'></div>");
     this.GetContainer(WebExtensionApi.Views.Preview).append("<iframe id='" + this.ContainerID + "_preview_extension_container' class='extension_container_frame'></iframe>");
-    this.LoadJquery(WebExtensionApi.Views.Preview_HTML);
+    
     //View
     $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_ViewContainer' style='display: none;'  class='wea_container'></div>");
     this.GetContainer(WebExtensionApi.Views.View).append("<input type='button' id='" + this.ContainerID + "_regenerate_html' value='Regenerate content' /><br />");
     this.GetContainer(WebExtensionApi.Views.View).append("<iframe id='" + this.ContainerID + "_extension_container' class='extension_container_frame'></iframe>");
-    this.LoadJquery(WebExtensionApi.Views.View_HTML);
+    
     $("#" + this.ContainerID + "_regenerate_html").click(function () {
         that.GenerateExtension(WebExtensionApi.Views.View_HTML);
     })
