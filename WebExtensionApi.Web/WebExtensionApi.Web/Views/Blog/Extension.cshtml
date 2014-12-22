@@ -1,4 +1,5 @@
-﻿@{
+﻿@model WebExtensionApi.BlogCore.DAL.WEAObject
+@{
     ViewBag.Title = "Extension";
 }
 <link href="~/Content/WebExtensionApi/WebExtensionApi.css" rel="stylesheet" />
@@ -7,9 +8,11 @@
 
 </style>
 <script type="text/javascript">
-  
+
 
     $(document).ready(function () {
+        var data = @Html.Raw(Model.JSON);
+
         webExtensionApi = new WebExtensionApi({
             dataSources: [
                  {
@@ -21,7 +24,10 @@
             width: 800,
             height: 640,
             jQueryPath:  "/Scripts/jquery-1.8.2.min.js",
-            Info: "To reach blogs data source please use following variable DataSources.Blogs"
+            Info: "To reach blogs data source please use following variable DataSources.Blogs",
+            SaveType: WebExtensionApi.SaveType.Database,
+            SaveURL: "/Blog/SaveBlog",
+            LoadData:data
         });
 
         //<div id="test_container"></div>

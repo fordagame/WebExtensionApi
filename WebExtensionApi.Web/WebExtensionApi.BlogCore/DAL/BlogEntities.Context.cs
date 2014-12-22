@@ -29,5 +29,6 @@ namespace WebExtensionApi.BlogCore.DAL
         public virtual DbSet<BlogImage> BlogImages { get; set; }
         public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<WEAObject> WEAObjects { get; set; }
     }
 }

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="BusinessLayer\BlogBL.cs" />
     <Compile Include="BusinessLayer\IBusinessLayer.cs" />
+    <Compile Include="BusinessLayer\WebExtensionApiBL.cs" />
     <Compile Include="DAL\Blog.cs">
       <DependentUpon>BlogEntities.tt</DependentUpon>
     </Compile>
@@ -89,14 +90,19 @@
       <DependentUpon>BlogEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="DAL\DataContextInstance.cs" />
+    <Compile Include="DAL\WEAObject.cs">
+      <DependentUpon>BlogEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\CalculateMd5Hash.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxy\BlogProxy.cs" />
+    <Compile Include="Proxy\WebExtensionApiProxy.cs" />
     <Compile Include="Repository\BaseRepo.cs" />
     <Compile Include="Repository\BlogRepo.cs" />
+    <Compile Include="Repository\WebExtensionApiRepo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

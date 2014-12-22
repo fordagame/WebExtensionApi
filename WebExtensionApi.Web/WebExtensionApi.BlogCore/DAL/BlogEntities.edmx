@@ -37,6 +37,13 @@
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="WebExtensionApi">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JSON" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <Association Name="FK_BlogComments_Blogs">
           <End Role="Blogs" Type="Self.Blogs" Multiplicity="1" />
           <End Role="BlogComments" Type="Self.BlogComments" Multiplicity="*" />
@@ -78,6 +85,7 @@
           <EntitySet Name="BlogImages" EntityType="Self.BlogImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Blogs" EntityType="Self.Blogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebExtensionApi" EntityType="Self.WebExtensionApi" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BlogComments_Blogs" Association="Self.FK_BlogComments_Blogs">
             <End Role="Blogs" EntitySet="Blogs" />
             <End Role="BlogComments" EntitySet="BlogComments" />
@@ -112,6 +120,7 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Blog" EntitySet="Blogs" />
           </AssociationSet>
+          <EntitySet Name="WEAObjects" EntityType="BlogModel.WEAObject" />
           </EntityContainer>
         <EntityType Name="BlogComment">
           <Key>
@@ -187,6 +196,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="WEAObject">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JSON" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -225,6 +241,14 @@
             <EntityTypeMapping TypeName="BlogModel.Category">
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WEAObjects">
+            <EntityTypeMapping TypeName="BlogModel.WEAObject">
+              <MappingFragment StoreEntitySet="WebExtensionApi">
+                <ScalarProperty Name="JSON" ColumnName="JSON" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

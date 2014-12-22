@@ -22,13 +22,22 @@ namespace WebExtensionApi.Web.Controllers.Blogs
 
         public ActionResult Extension()
         {
-            return View();
+            var model = base.LoadModel<WebExtensionApiBL>();
+            return View(model.GetSavedJson());
         }
 
         public JsonResult GetBlogs()
         {
             var model = base.LoadModel<BlogBL>();
             return Json(JsonHelper.GetJson(model.GetAllBlogs()), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)] 
+        public void SaveBlog(string serializedBlog)
+        {
+            var model = base.LoadModel<WebExtensionApiBL>();
+            model.SaveJson(serializedBlog);
         }
 
     }
