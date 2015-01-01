@@ -20,6 +20,7 @@ function WebExtensionApi(options) {
     this.DataSourceLoadedCounter = 0;
     this.AllDataSources = 0;
     this.DataSources = {};
+    this.Functions = {};
     if (options && options.dataSources) {
         this.AllDataSources = options.dataSources.length;
         for (var i in options.dataSources) {
@@ -32,6 +33,12 @@ function WebExtensionApi(options) {
                     that.AllDataSourcesLoaded();
                 }
             });
+        }
+    }
+    if (options && options.functions) {
+        for (var i in options.functions) {
+            var fn = options.functions[i];
+            that.Functions[fn.Name] = fn.Function;
         }
     }
     this.jQueryPath = options.jQueryPath;
@@ -76,9 +83,9 @@ WebExtensionApi.prototype.buildView = function () {
     $("#" + this.ContainerID).width(this.Width);
     $("#" + this.ContainerID).height(this.Height);
     if (this.Options.Info) {
-        $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_info_container' >" + this.Options.Info + "</div>");
+        $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_info_container' class='extension_container_info_container' >" + this.Options.Info + "</div>");
     }
-    $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_button_container' ></div>");
+    $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_button_container' class='extension_container_button_container' ></div>");
     var buttonContainer = this.GetContainer(WebExtensionApi.Views.Button);
     buttonContainer.append("<input type='button' id='" + this.ContainerID + "_HTMLButton' value='HTML' />");
     $("#" + this.ContainerID + "_HTMLButton").click(function () {
@@ -163,8 +170,37 @@ WebExtensionApi.prototype.GetContainer = function (viewId) {
     return container;
 }
 
+WebExtensionApi.prototype.GetButton = function (viewId) {
+    var button = null;
+    switch (viewId) {
+        case WebExtensionApi.Views.JavaScript:
+            button = $("#" + this.ContainerID + "_JavaScriptButton");
+            break;
+        case WebExtensionApi.Views.CSS:
+            button = $("#" + this.ContainerID + "_CSSButton");
+            break;
+        case WebExtensionApi.Views.HTML:
+            button = $("#" + this.ContainerID + "_HTMLButton");
+            break;
+        case WebExtensionApi.Views.View:
+            button = $("#" + this.ContainerID + "_ViewButton");
+            break;
+        case WebExtensionApi.Views.Preview:
+            button = $("#" + this.ContainerID + "_PreviewButton");
+            break;
+        case WebExtensionApi.Views.Button:
+            button = $("#" + this.ContainerID + "_SaveButton");
+            break;
+    }
+    return button;
+}
+
 WebExtensionApi.prototype.SwitchView = function (viewId) {
     var oldContainer = this.GetContainer(this.StateID);
+    var oldButton = this.GetButton(this.StateID);
+    if (oldButton != null) {
+        oldButton.removeClass("selected");
+    }
     if (oldContainer != null) {
         oldContainer.hide();
         switch (this.StateID) {
@@ -186,6 +222,10 @@ WebExtensionApi.prototype.SwitchView = function (viewId) {
         }
     }
     var newContainer = this.GetContainer(viewId);
+    var newButton = this.GetButton(viewId);
+    if (newButton != null) {
+        newButton.addClass("selected");
+    }
     if (newContainer != null) {
         newContainer.show();
         switch (viewId) {
@@ -261,6 +301,7 @@ WebExtensionApi.prototype.GenerateExtension = function (viewId) {
     var script = doc.createElement("script");
     script.type = "text/javascript";
     script.text = "DataSources = parent.webExtensionApi.DataSources;";
+    script.text = "Functions = parent.webExtensionApi.Functions;";
     script.text += this.JavaScriptText;
     doc.body.appendChild(script);
 }

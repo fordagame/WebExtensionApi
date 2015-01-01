@@ -10,3 +10,12 @@
     width: 100%;
     height: 100%;
 }
+.extension_container_button_container input[type=button] {
+    background: gray;
+    color: white;
+}
+.extension_container_button_container input[type=button].selected {
+    background: none;
+    color: black;
+    border: 1px black solid;
+}

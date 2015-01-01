@@ -27,7 +27,13 @@
             Info: "To reach blogs data source please use following variable DataSources.Blogs",
             SaveType: WebExtensionApi.SaveType.Database,
             SaveURL: "/Blog/SaveBlog",
-            LoadData:data
+            LoadData:data,
+            functions:[
+                {
+                    Name: "Test",
+                    Function: function(){ alert('a'); }
+                }
+                ]
         });
 
         //<div id="test_container"></div>
