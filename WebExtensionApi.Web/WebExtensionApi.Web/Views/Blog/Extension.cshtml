@@ -14,26 +14,8 @@
         var data = @Html.Raw(Model.JSON);
 
         webExtensionApi = new WebExtensionApi({
-            dataSources: [
-                 {
-                     Name: "Blogs",
-                     Url: "/Blog/GetBlogs"
-                 }
-            ],
             containerId: "extension-container",
-            width: 800,
-            height: 640,
-            jQueryPath:  "/Scripts/jquery-1.8.2.min.js",
-            Info: "To reach blogs data source please use following variable DataSources.Blogs",
-            SaveType: WebExtensionApi.SaveType.Database,
-            SaveURL: "/Blog/SaveBlog",
-            LoadData:data,
-            functions:[
-                {
-                    Name: "Test",
-                    Function: function(){ alert('a'); }
-                }
-                ]
+            jQueryPath:  "/Scripts/jquery-1.8.2.min.js"
         });
 
         //<div id="test_container"></div>

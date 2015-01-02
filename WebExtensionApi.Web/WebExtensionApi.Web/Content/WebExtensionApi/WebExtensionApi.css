@@ -10,7 +10,8 @@
     width: 100%;
     height: 100%;
 }
-.extension_container_button_container input[type=button] {
+.extension_container_button_container input[type=button],
+.wea_container input[type=button] {
     background: gray;
     color: white;
 }

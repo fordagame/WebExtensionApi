@@ -26,6 +26,12 @@ namespace WebExtensionApi.Web.Controllers.Blogs
             return View(model.GetSavedJson());
         }
 
+        public ActionResult BeautyTemplate()
+        {
+            var model = base.LoadModel<BlogBL>();
+            return View(model.GetAllBlogs());
+        }
+
         public JsonResult GetBlogs()
         {
             var model = base.LoadModel<BlogBL>();

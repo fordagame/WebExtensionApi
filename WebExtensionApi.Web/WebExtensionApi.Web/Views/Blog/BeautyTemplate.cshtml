@@ -1,0 +1,133 @@
+﻿@model List<WebExtensionApi.BlogCore.Proxy.BlogProxy>
+@{
+    ViewBag.Title = "Beauty template";
+}
+
+<h2>Index</h2>
+@Html.ActionLink("User Extensions", "Extension")
+<style>
+    .blog_post {
+        color: rgb(136, 136, 136);
+        width: 600px;
+        background: white;
+        padding: 15px;
+
+    }
+
+    .main_element {
+        min-height: 250px;
+        padding-top: 10px;
+    }
+
+    .title {
+        font-size: 26px;
+        font-weight: 700;
+        color: black;
+    }
+
+    .image {
+        width: 300px;
+        height: 200px;
+        padding-right: 10px;
+        padding-bottom: 10px
+    }
+    .small_image {
+        width: 40px;
+        height: 25px;
+        padding-right: 10px;
+    }
+    #blog_container {
+        width: 90%;
+        background: gray;
+        padding: 25px;
+    }
+    .image_container {
+        float: left;
+        width:310px;
+    }
+    .comment_text {
+        border: 1px rgb(136, 136, 136) solid;
+        width: 100%;
+    }
+    .comments_section {
+        font-size: 25px;
+        font-weight:700;
+    }
+</style>
+<script type="text/javascript">
+    var dataSource = @Html.Raw(WebExtensionApi.BlogCore.Helpers.JsonHelper.GetJson(Model));
+    
+</script>
+<div id="blog_container">
+    <select id="categories_select" onchange="filterCategories()">
+        <option value="0">All</option>
+    </select>
+    <div id="blog_posts">
+    </div>
+</div>
+
+<script type="text/javascript">
+    categories = [];
+    function AddBlogs(){
+        for(var i in dataSource){
+            buildBlogPost(dataSource[i]);
+        }
+        AddAllCategories();
+    }
+    function AddAllCategories(){
+        for(var i in categories){
+            $("#categories_select").append("<option value='"+i+"'>"+categories[i]+"</options>");
+        }
+    }
+    function filterCategories(){
+        var id = $("#categories_select").val();
+        if(id == 0){
+            $(".blog_post").show();
+            return;
+        }
+        $(".blog_post").hide();
+        $("[category-id="+id+"]").show();
+    }
+    function toggleComments(obj){
+        $(obj).closest(".blog_post").find(".comments_container").toggle();
+    }
+    function buildBlogPost(blog){
+        categories[blog.CategoryID] = blog.Category;
+        var blog_element = document.createElement("div");
+        blog_element.classList.add("blog_post");
+        $(blog_element).attr("category-id", blog.CategoryID);
+        $(blog_element).append("<div class='title'>" + blog.Title + "</div>");
+        $(blog_element).append("<div class='category'>in category: <span class='category_name'><i>" + blog.Category + "</i></span> with rating <span class='rating'><i>"+ blog.Rating +"</i></span></div>");
+        $(blog_element).append("<div class='comments'><a onclick='toggleComments(this)' href='javascript:;'>Comments (" + blog.Comments.length +")</a> / Images (" + blog.Images.length +")</div>");
+
+        var main_element = document.createElement("div");
+        $(blog_element).append(main_element);
+        main_element.classList.add("main_element");
+        if(blog.Images.length > 0){
+
+            var img_container = document.createElement("div");
+            img_container.classList.add("image_container");            
+            $(main_element).append(img_container);
+
+            var img = blog.Images[0].ImageURL;
+            $(img_container).append("<a href='"+blog.Images[0].ImageURL+"' target='_blank'><img src='" + img +"' class='image' /></a>");
+
+            for(var i = 1; i < blog.Images.length; i++){
+                $(img_container).append("<a href='"+blog.Images[i].ImageURL+"' target='_blank'><img src='" + blog.Images[i].ImageURL +"' class='small_image' /></a>");
+            }
+        }
+        $(main_element).append("<div class='text'>"+ blog.Text+"</div>");
+        
+        var comments_container = document.createElement("div");
+        $(blog_element).append(comments_container);
+        comments_container.classList.add("comments_container");
+        $(comments_container).append("<div class='comments_section'>Comments:</div>");
+        for(i = 0 ; i < blog.Comments.length; i++){
+            $(comments_container).append("<div class='comment_text'>"+ blog.Comments[i].Text +"</div>");
+        }
+        $(comments_container).hide();
+        $(blog_element).append("<hr />");
+        $("#blog_posts").append(blog_element);
+    }
+    AddBlogs();
+</script>

@@ -5,12 +5,14 @@
 
 <h2>Index</h2>
 @Html.ActionLink("User Extensions", "Extension")
+@Html.ActionLink("Beauty Template", "BeautyTemplate")
 
 @foreach (var item in Model)
 {
     <br />
     <div>Article number: @item.ID</div>
     
+    <div>Category: @item.Title</div>
     <div>Category: @item.Category</div>
     <div>Rating: @item.Rating</div>
     <div>@item.Text</div>

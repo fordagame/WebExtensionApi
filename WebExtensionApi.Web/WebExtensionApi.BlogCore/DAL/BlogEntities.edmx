@@ -4,12 +4,31 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BlogDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BlogModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="BlogModelStoreContainer">
+          <EntitySet Name="BlogComments" EntityType="BlogModel.Store.BlogComments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BlogImages" EntityType="BlogModel.Store.BlogImages" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Blogs" EntityType="BlogModel.Store.Blogs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Categories" EntityType="BlogModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WebExtensionApi" EntityType="BlogModel.Store.WebExtensionApi" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_BlogComments_Blogs" Association="BlogModel.Store.FK_BlogComments_Blogs">
+            <End Role="Blogs" EntitySet="Blogs" />
+            <End Role="BlogComments" EntitySet="BlogComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogImages_Blogs" Association="BlogModel.Store.FK_BlogImages_Blogs">
+            <End Role="Blogs" EntitySet="Blogs" />
+            <End Role="BlogImages" EntitySet="BlogImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Blogs_Categories" Association="BlogModel.Store.FK_Blogs_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Blogs" EntitySet="Blogs" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="BlogComments">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Text" Type="text" Nullable="false" />
           <Property Name="BlogID" Type="int" Nullable="false" />
         </EntityType>
@@ -17,36 +36,37 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ImageURL" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImageURL" Type="nvarchar" Nullable="false" MaxLength="2000" />
           <Property Name="BlogID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Blogs">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Text" Type="text" Nullable="false" />
           <Property Name="Rating" Type="int" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="350" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
         </EntityType>
         <EntityType Name="WebExtensionApi">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="JSON" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="FK_BlogComments_Blogs">
-          <End Role="Blogs" Type="Self.Blogs" Multiplicity="1" />
-          <End Role="BlogComments" Type="Self.BlogComments" Multiplicity="*" />
+          <End Role="Blogs" Type="BlogModel.Store.Blogs" Multiplicity="1" />
+          <End Role="BlogComments" Type="BlogModel.Store.BlogComments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Blogs">
               <PropertyRef Name="ID" />
@@ -57,8 +77,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BlogImages_Blogs">
-          <End Role="Blogs" Type="Self.Blogs" Multiplicity="1" />
-          <End Role="BlogImages" Type="Self.BlogImages" Multiplicity="*" />
+          <End Role="Blogs" Type="BlogModel.Store.Blogs" Multiplicity="1" />
+          <End Role="BlogImages" Type="BlogModel.Store.BlogImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Blogs">
               <PropertyRef Name="ID" />
@@ -69,8 +89,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Blogs_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
-          <End Role="Blogs" Type="Self.Blogs" Multiplicity="*" />
+          <End Role="Categories" Type="BlogModel.Store.Categories" Multiplicity="1" />
+          <End Role="Blogs" Type="BlogModel.Store.Blogs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="ID" />
@@ -80,176 +100,160 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BlogDBModelStoreContainer">
-          <EntitySet Name="BlogComments" EntityType="Self.BlogComments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BlogImages" EntityType="Self.BlogImages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Blogs" EntityType="Self.Blogs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WebExtensionApi" EntityType="Self.WebExtensionApi" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_BlogComments_Blogs" Association="Self.FK_BlogComments_Blogs">
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlogModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BlogEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="BlogComments" EntityType="BlogModel.BlogComment" />
+          <EntitySet Name="BlogImages" EntityType="BlogModel.BlogImage" />
+          <EntitySet Name="Blogs" EntityType="BlogModel.Blog" />
+          <EntitySet Name="Categories" EntityType="BlogModel.Category" />
+          <EntitySet Name="WEAObjects1" EntityType="BlogModel.WEAObject" />
+          <AssociationSet Name="FK_BlogComments_Blogs" Association="BlogModel.FK_BlogComments_Blogs">
             <End Role="Blogs" EntitySet="Blogs" />
             <End Role="BlogComments" EntitySet="BlogComments" />
           </AssociationSet>
-          <AssociationSet Name="FK_BlogImages_Blogs" Association="Self.FK_BlogImages_Blogs">
+          <AssociationSet Name="FK_BlogImages_Blogs" Association="BlogModel.FK_BlogImages_Blogs">
             <End Role="Blogs" EntitySet="Blogs" />
             <End Role="BlogImages" EntitySet="BlogImages" />
           </AssociationSet>
-          <AssociationSet Name="FK_Blogs_Categories" Association="Self.FK_Blogs_Categories">
+          <AssociationSet Name="FK_Blogs_Categories" Association="BlogModel.FK_Blogs_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Blogs" EntitySet="Blogs" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
-    <!-- CSDL content -->
-    <edmx:ConceptualModels>
-      <Schema Namespace="BlogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="BlogEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="BlogComments" EntityType="BlogModel.BlogComment" />
-          <EntitySet Name="BlogImages" EntityType="BlogModel.BlogImage" />
-          <EntitySet Name="Blogs" EntityType="BlogModel.Blog" />
-          <AssociationSet Name="FK_BlogComments_Blogs" Association="BlogModel.FK_BlogComments_Blogs">
-            <End Role="Blog" EntitySet="Blogs" />
-            <End Role="BlogComment" EntitySet="BlogComments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BlogImages_Blogs" Association="BlogModel.FK_BlogImages_Blogs">
-            <End Role="Blog" EntitySet="Blogs" />
-            <End Role="BlogImage" EntitySet="BlogImages" />
-          </AssociationSet>
-          <EntitySet Name="Categories" EntityType="BlogModel.Category" />
-          <AssociationSet Name="FK_Blogs_Categories" Association="BlogModel.FK_Blogs_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Blog" EntitySet="Blogs" />
-          </AssociationSet>
-          <EntitySet Name="WEAObjects" EntityType="BlogModel.WEAObject" />
-          </EntityContainer>
         <EntityType Name="BlogComment">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="BlogID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Blog" Relationship="BlogModel.FK_BlogComments_Blogs" FromRole="BlogComment" ToRole="Blog" />
+          <NavigationProperty Name="Blog" Relationship="BlogModel.FK_BlogComments_Blogs" FromRole="BlogComments" ToRole="Blogs" />
         </EntityType>
         <EntityType Name="BlogImage">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ImageURL" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageURL" Type="String" Nullable="false" MaxLength="2000" Unicode="true" FixedLength="false" />
           <Property Name="BlogID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Blog" Relationship="BlogModel.FK_BlogImages_Blogs" FromRole="BlogImage" ToRole="Blog" />
+          <NavigationProperty Name="Blog" Relationship="BlogModel.FK_BlogImages_Blogs" FromRole="BlogImages" ToRole="Blogs" />
         </EntityType>
         <EntityType Name="Blog">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="Rating" Type="Int32" Nullable="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BlogComments" Relationship="BlogModel.FK_BlogComments_Blogs" FromRole="Blog" ToRole="BlogComment" />
-          <NavigationProperty Name="BlogImages" Relationship="BlogModel.FK_BlogImages_Blogs" FromRole="Blog" ToRole="BlogImage" />
-          <NavigationProperty Name="Category" Relationship="BlogModel.FK_Blogs_Categories" FromRole="Blog" ToRole="Category" />
+          <Property Name="Title" Type="String" MaxLength="350" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="BlogComments" Relationship="BlogModel.FK_BlogComments_Blogs" FromRole="Blogs" ToRole="BlogComments" />
+          <NavigationProperty Name="BlogImages" Relationship="BlogModel.FK_BlogImages_Blogs" FromRole="Blogs" ToRole="BlogImages" />
+          <NavigationProperty Name="Category" Relationship="BlogModel.FK_Blogs_Categories" FromRole="Blogs" ToRole="Categories" />
         </EntityType>
-        <Association Name="FK_BlogComments_Blogs">
-          <End Type="BlogModel.Blog" Role="Blog" Multiplicity="1" />
-          <End Type="BlogModel.BlogComment" Role="BlogComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Blog">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BlogComment">
-              <PropertyRef Name="BlogID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BlogImages_Blogs">
-          <End Type="BlogModel.Blog" Role="Blog" Multiplicity="1" />
-          <End Type="BlogModel.BlogImage" Role="BlogImage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Blog">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BlogImage">
-              <PropertyRef Name="BlogID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Blogs" Relationship="BlogModel.FK_Blogs_Categories" FromRole="Category" ToRole="Blog" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Blogs" Relationship="BlogModel.FK_Blogs_Categories" FromRole="Categories" ToRole="Blogs" />
         </EntityType>
-        <Association Name="FK_Blogs_Categories">
-          <End Type="BlogModel.Category" Role="Category" Multiplicity="1" />
-          <End Type="BlogModel.Blog" Role="Blog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Blog">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="WEAObject">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="JSON" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="JSON" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
-        </Schema>
+        <Association Name="FK_BlogComments_Blogs">
+          <End Role="Blogs" Type="BlogModel.Blog" Multiplicity="1" />
+          <End Role="BlogComments" Type="BlogModel.BlogComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blogs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BlogComments">
+              <PropertyRef Name="BlogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogImages_Blogs">
+          <End Role="Blogs" Type="BlogModel.Blog" Multiplicity="1" />
+          <End Role="BlogImages" Type="BlogModel.BlogImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blogs">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BlogImages">
+              <PropertyRef Name="BlogID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Blogs_Categories">
+          <End Role="Categories" Type="BlogModel.Category" Multiplicity="1" />
+          <End Role="Blogs" Type="BlogModel.Blog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Blogs">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BlogDBModelStoreContainer" CdmEntityContainer="BlogEntities">
+        <EntityContainerMapping StorageEntityContainer="BlogModelStoreContainer" CdmEntityContainer="BlogEntities">
           <EntitySetMapping Name="BlogComments">
             <EntityTypeMapping TypeName="BlogModel.BlogComment">
               <MappingFragment StoreEntitySet="BlogComments">
-                <ScalarProperty Name="BlogID" ColumnName="BlogID" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="BlogID" ColumnName="BlogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BlogImages">
             <EntityTypeMapping TypeName="BlogModel.BlogImage">
               <MappingFragment StoreEntitySet="BlogImages">
-                <ScalarProperty Name="BlogID" ColumnName="BlogID" />
-                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+                <ScalarProperty Name="BlogID" ColumnName="BlogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Blogs">
             <EntityTypeMapping TypeName="BlogModel.Blog">
               <MappingFragment StoreEntitySet="Blogs">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="Text" ColumnName="Text" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="BlogModel.Category">
               <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WEAObjects">
+          <EntitySetMapping Name="WEAObjects1">
             <EntityTypeMapping TypeName="BlogModel.WEAObject">
               <MappingFragment StoreEntitySet="WebExtensionApi">
-                <ScalarProperty Name="JSON" ColumnName="JSON" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="JSON" ColumnName="JSON" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -267,9 +271,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

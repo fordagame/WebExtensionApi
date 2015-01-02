@@ -6,9 +6,10 @@ WebExtensionApi.Views = {
     JavaScript: 3,
     Preview: 4,
     View: 5,
-    Button: 6,
+    SaveButton: 6,
     View_HTML: 7,
-    Preview_HTML: 8
+    Preview_HTML: 8,
+    Regenerate_Button: 9
 }
 WebExtensionApi.SaveType = {
     NoSave: 0,
@@ -21,20 +22,7 @@ function WebExtensionApi(options) {
     this.AllDataSources = 0;
     this.DataSources = {};
     this.Functions = {};
-    if (options && options.dataSources) {
-        this.AllDataSources = options.dataSources.length;
-        for (var i in options.dataSources) {
-            var dataSource = options.dataSources[i];
-            var that = this;
-            $.getJSON(dataSource.Url, function (data) {
-                that.DataSources[dataSource.Name] = eval("(" + data + ")");
-                that.DataSourceLoadedCounter++;
-                if (that.AllDataSources == that.DataSourceLoadedCounter) {
-                    that.AllDataSourcesLoaded();
-                }
-            });
-        }
-    }
+
     if (options && options.functions) {
         for (var i in options.functions) {
             var fn = options.functions[i];
@@ -50,6 +38,24 @@ function WebExtensionApi(options) {
     this.Options = options;
     this.ContainerID = this.Options.containerId;
     $("#" + this.ContainerID).html("Please wait untill all datasources are loaded!");
+
+    if (options && options.dataSources && options.dataSources.length > 0) {
+        this.AllDataSources = options.dataSources.length;
+        for (var i in options.dataSources) {
+            var dataSource = options.dataSources[i];
+            var that = this;
+            $.getJSON(dataSource.Url, function (data) {
+                that.DataSources[dataSource.Name] = eval("(" + data + ")");
+                that.DataSourceLoadedCounter++;
+                if (that.AllDataSources == that.DataSourceLoadedCounter) {
+                    that.AllDataSourcesLoaded();
+                }
+            });
+        }
+    }
+    else {
+        this.AllDataSourcesLoaded();
+    }
 }
 WebExtensionApi.prototype.AllDataSourcesLoaded = function () {
     this.LoadData = this.Options.LoadData;
@@ -86,7 +92,7 @@ WebExtensionApi.prototype.buildView = function () {
         $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_info_container' class='extension_container_info_container' >" + this.Options.Info + "</div>");
     }
     $("#" + this.ContainerID).append("<div id='" + this.ContainerID + "_button_container' class='extension_container_button_container' ></div>");
-    var buttonContainer = this.GetContainer(WebExtensionApi.Views.Button);
+    var buttonContainer = this.GetContainer(WebExtensionApi.Views.SaveButton);
     buttonContainer.append("<input type='button' id='" + this.ContainerID + "_HTMLButton' value='HTML' />");
     $("#" + this.ContainerID + "_HTMLButton").click(function () {
         that.HTML();
@@ -134,7 +140,15 @@ WebExtensionApi.prototype.buildView = function () {
         that.GenerateExtension(WebExtensionApi.Views.View_HTML);
     })
 
-
+    if (this.Options.simpleView) {
+        that.GetButton(WebExtensionApi.Views.Preview).hide();
+        that.GetButton(WebExtensionApi.Views.JavaScript).hide();
+        that.GetButton(WebExtensionApi.Views.HTML).hide();
+        that.GetButton(WebExtensionApi.Views.CSS).hide();
+        that.GetButton(WebExtensionApi.Views.SaveButton).hide();
+        that.GetButton(WebExtensionApi.Views.View).hide();
+        that.GetButton(WebExtensionApi.Views.Regenerate_Button).hide();
+    }
 }
 
 WebExtensionApi.prototype.GetContainer = function (viewId) {
@@ -157,7 +171,7 @@ WebExtensionApi.prototype.GetContainer = function (viewId) {
         case WebExtensionApi.Views.Preview:
             container = $("#" + this.ContainerID + "_PreviewContainer");
             break;
-        case WebExtensionApi.Views.Button:
+        case WebExtensionApi.Views.SaveButton:
             container = $("#" + this.ContainerID + "_button_container");
             break;
         case WebExtensionApi.Views.View_HTML:
@@ -188,8 +202,11 @@ WebExtensionApi.prototype.GetButton = function (viewId) {
         case WebExtensionApi.Views.Preview:
             button = $("#" + this.ContainerID + "_PreviewButton");
             break;
-        case WebExtensionApi.Views.Button:
+        case WebExtensionApi.Views.SaveButton:
             button = $("#" + this.ContainerID + "_SaveButton");
+            break;
+        case WebExtensionApi.Views.Regenerate_Button:
+            button = $("#" + this.ContainerID + "_regenerate_html");
             break;
     }
     return button;
@@ -292,6 +309,7 @@ WebExtensionApi.prototype.LoadJquery = function (viewId) {
 
 
 WebExtensionApi.prototype.GenerateExtension = function (viewId) {
+    this.LoadJquery(viewId);
     var container = this.GetContainer(viewId);
     var doc = container[0].contentWindow.document;
     var body = $('body', doc);
@@ -301,9 +319,17 @@ WebExtensionApi.prototype.GenerateExtension = function (viewId) {
     var script = doc.createElement("script");
     script.type = "text/javascript";
     script.text = "DataSources = parent.webExtensionApi.DataSources;";
-    script.text = "Functions = parent.webExtensionApi.Functions;";
+    script.text += "Functions = parent.webExtensionApi.Functions;";
     script.text += this.JavaScriptText;
     doc.body.appendChild(script);
+    for (var i in this.Options.javaScriptFiles) {
+        var jsurl = this.Options.javaScriptFiles[i];
+
+        var jsFile = doc.createElement("script");
+        jsFile.type = "text/javascript";
+        jsFile.src = jsurl;
+        doc.body.appendChild(jsFile);
+    }
 }
 
 WebExtensionApi.prototype.Save = function () {
